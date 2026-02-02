@@ -1,0 +1,39 @@
+.algorithm-selector {
+  text-align: left;
+}
+
+.algorithm-selector label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.algorithm-selector select {
+  width: 100%;
+  padding: 0.6rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background-color: #1a1a1a;
+  color: inherit;
+  cursor: pointer;
+}
+
+.algorithm-selector select:focus {
+  outline: 2px solid #646cff;
+  border-color: #646cff;
+}
+
+.algorithm-description {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #888;
+  font-style: italic;
+}
+
+@media (prefers-color-scheme: light) {
+  .algorithm-selector select {
+    background-color: #f9f9f9;
+    border-color: #ddd;
+  }
+}

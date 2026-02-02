@@ -1,0 +1,60 @@
+.score-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  transition: background 0.3s ease;
+}
+
+.score-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 100px;
+}
+
+.score-label {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.8;
+  margin-bottom: 0.25rem;
+}
+
+.score-value {
+  font-size: 3rem;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.score-percent {
+  font-size: 0.85rem;
+  opacity: 0.6;
+  margin-top: 0.25rem;
+}
+
+.score-side.human .score-value {
+  color: #4ade80;
+}
+
+.score-side.machine .score-value {
+  color: #f87171;
+}
+
+.score-divider {
+  font-size: 1.5rem;
+  opacity: 0.5;
+}
+
+@media (prefers-color-scheme: light) {
+  .score-side.human .score-value {
+    color: #16a34a;
+  }
+
+  .score-side.machine .score-value {
+    color: #dc2626;
+  }
+}

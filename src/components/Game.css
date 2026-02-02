@@ -1,0 +1,61 @@
+.game {
+  text-align: center;
+}
+
+.game-header {
+  margin-bottom: 2rem;
+}
+
+.game-header h1 {
+  margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+}
+
+.game-subtitle {
+  color: #888;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.choice-section {
+  margin-bottom: 2rem;
+}
+
+.choice-section h2 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.settings-section {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.reset-button {
+  padding: 0.5rem 1.5rem;
+  background-color: #444;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.reset-button:hover {
+  background-color: #555;
+}
+
+@media (prefers-color-scheme: light) {
+  .reset-button {
+    background-color: #ddd;
+    color: #333;
+  }
+
+  .reset-button:hover {
+    background-color: #ccc;
+  }
+}

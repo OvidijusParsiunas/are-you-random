@@ -1,0 +1,47 @@
+.choice-buttons {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.choice-button {
+  width: 100px;
+  height: 100px;
+  font-size: 2.5rem;
+  font-weight: bold;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.choice-button:hover {
+  transform: scale(1.1);
+}
+
+.choice-button:active {
+  transform: scale(0.95);
+}
+
+.choice-0 {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  color: white;
+}
+
+.choice-0:hover {
+  border-color: #93c5fd;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+}
+
+.choice-1 {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+}
+
+.choice-1:hover {
+  border-color: #fcd34d;
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+}
