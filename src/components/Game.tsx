@@ -1,8 +1,9 @@
-import { useGame } from '../hooks/useGame';
-import { ScoreDisplay } from './ScoreDisplay';
-import { ChoiceButtons } from './ChoiceButtons';
-import { History } from './History';
+import { MachinePrediction } from './MachinePrediction';
 import { AlgorithmSelector } from './AlgorithmSelector';
+import { ChoiceButtons } from './ChoiceButtons';
+import { ScoreDisplay } from './ScoreDisplay';
+import { useGame } from '../hooks/useGame';
+import { History } from './History';
 import './Game.css';
 
 export function Game() {
@@ -11,11 +12,14 @@ export function Game() {
     humanScore,
     machineScore,
     currentPredictor,
+    currentPrediction,
     availablePredictors,
     makeChoice,
     changePredictor,
     resetGame,
   } = useGame();
+
+  const lastRound = rounds[rounds.length - 1];
 
   return (
     <div className="game">
@@ -26,9 +30,28 @@ export function Game() {
         </p>
       </header>
 
-      <div className="choice-section">
-        <h2>Make your choice</h2>
-        <ChoiceButtons onChoice={makeChoice} />
+      <div className="choices-container">
+        <div className="choice-section">
+          <h2>Make your choice</h2>
+          <ChoiceButtons onChoice={makeChoice} />
+          {lastRound && !lastRound.correct && (
+            <div key={rounds.length} className="plus-one human">+1</div>
+          )}
+        </div>
+
+        <div className="choice-section">
+          <h2>Machine prediction</h2>
+          <div className="prediction-wrapper">
+            <MachinePrediction
+              key={rounds.length}
+              prediction={currentPrediction}
+              lastPrediction={lastRound?.prediction}
+            />
+          </div>
+          {lastRound && lastRound.correct && (
+            <div key={rounds.length} className="plus-one machine">+1</div>
+          )}
+        </div>
       </div>
 
       <ScoreDisplay humanScore={humanScore} machineScore={machineScore} />

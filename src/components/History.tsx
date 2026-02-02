@@ -26,7 +26,6 @@ export function History({ rounds }: HistoryProps) {
 
   return (
     <div className="history">
-      <h3>History</h3>
       <div className="history-scroll" ref={scrollRef}>
         {rounds.map((round, index) => {
           const roundNumber = index + 1;

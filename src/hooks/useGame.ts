@@ -62,12 +62,15 @@ export function useGame() {
     setMachineScore(0);
   }, [currentPredictor]);
 
+  const currentPrediction = currentPredictor.predict(history);
+
   return {
     history,
     rounds,
     humanScore,
     machineScore,
     currentPredictor,
+    currentPrediction,
     availablePredictors: predictors,
     makeChoice,
     changePredictor,
