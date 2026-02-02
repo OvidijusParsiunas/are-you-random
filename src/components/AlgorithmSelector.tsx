@@ -13,20 +13,16 @@ export function AlgorithmSelector({
   onSelect,
 }: AlgorithmSelectorProps) {
   return (
-    <div className="algorithm-selector">
-      <label htmlFor="algorithm-select">Algorithm:</label>
-      <select
-        id="algorithm-select"
-        value={currentPredictor.name}
-        onChange={(e) => onSelect(e.target.value)}
-      >
-        {predictors.map((predictor) => (
-          <option key={predictor.name} value={predictor.name}>
-            {predictor.name}
-          </option>
-        ))}
-      </select>
-      <p className="algorithm-description">{currentPredictor.description}</p>
-    </div>
+    <select
+      className="algorithm-selector"
+      value={currentPredictor.name}
+      onChange={(e) => onSelect(e.target.value)}
+    >
+      {predictors.map((predictor) => (
+        <option key={predictor.name} value={predictor.name}>
+          {predictor.name}
+        </option>
+      ))}
+    </select>
   );
 }

@@ -23,6 +23,17 @@ export function Game() {
 
   return (
     <div className="game">
+      <div className="toolbar">
+        <AlgorithmSelector
+          predictors={availablePredictors}
+          currentPredictor={currentPredictor}
+          onSelect={changePredictor}
+        />
+        <button className="reset-button" onClick={resetGame}>
+          Reset
+        </button>
+      </div>
+
       <header className="game-header">
         <h1>Are You Random?</h1>
         <p className="game-subtitle">
@@ -58,16 +69,6 @@ export function Game() {
 
       <History rounds={rounds} />
 
-      <div className="settings-section">
-        <AlgorithmSelector
-          predictors={availablePredictors}
-          currentPredictor={currentPredictor}
-          onSelect={changePredictor}
-        />
-        <button className="reset-button" onClick={resetGame}>
-          Reset Game
-        </button>
-      </div>
     </div>
   );
 }
