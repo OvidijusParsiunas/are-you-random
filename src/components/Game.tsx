@@ -22,30 +22,27 @@ export function Game() {
 
   const [showReveal, setShowReveal] = useState(false);
   const [showScoreAndHistory, setShowScoreAndHistory] = useState(false);
+  const [hasPlayedBefore, setHasPlayedBefore] = useState(false);
+  const [initialFadeIn, setInitialFadeIn] = useState(true);
 
   const hasPlayed = rounds.length > 0;
   const lastRound = rounds[rounds.length - 1];
 
-  // Reset states when game is reset
+  // Handle first choice reveal animation (only on very first game)
   useEffect(() => {
-    if (rounds.length === 0) {
-      setShowReveal(false);
-      setShowScoreAndHistory(false);
-    }
-  }, [rounds.length]);
-
-  // Handle first choice reveal animation
-  useEffect(() => {
-    if (rounds.length === 1 && !showScoreAndHistory) {
+    if (rounds.length === 1 && !hasPlayedBefore) {
+      // First time ever playing - show reveal animation
       setShowReveal(true);
-      // After reveal message shows, fade it out and show score/history
       const timer = setTimeout(() => {
         setShowReveal(false);
         setShowScoreAndHistory(true);
+        setHasPlayedBefore(true);
+        // Turn off fade-in after animation completes
+        setTimeout(() => setInitialFadeIn(false), 500);
       }, 2500);
       return () => clearTimeout(timer);
     }
-  }, [rounds.length, showScoreAndHistory]);
+  }, [rounds.length, hasPlayedBefore]);
 
   return (
     <div className="game">
@@ -92,7 +89,7 @@ export function Game() {
         </div>
       </div>
 
-      {hasPlayed && (
+      {(hasPlayed || showScoreAndHistory) && (
         <div className="score-area">
           {showReveal && (
             <div className={`reveal-message ${lastRound?.correct ? 'machine-win' : 'human-win'}`}>
@@ -100,7 +97,7 @@ export function Game() {
             </div>
           )}
           {showScoreAndHistory && (
-            <div className="fade-in">
+            <div className={initialFadeIn ? 'fade-in' : undefined}>
               <ScoreDisplay humanScore={humanScore} machineScore={machineScore} />
             </div>
           )}
@@ -108,7 +105,7 @@ export function Game() {
       )}
 
       {showScoreAndHistory && (
-        <div className="fade-in">
+        <div className={initialFadeIn ? 'fade-in' : undefined}>
           <History rounds={rounds} />
         </div>
       )}
