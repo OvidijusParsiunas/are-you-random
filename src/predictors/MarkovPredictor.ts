@@ -5,39 +5,46 @@ export class MarkovPredictor implements Predictor {
   description = 'Predicts based on patterns in your recent choices';
 
   private order: number;
-  private transitions: Map<string, { count0: number; count1: number }>;
+  private transitions: Map<string, number[]>;
 
   constructor(order: number = 3) {
     this.order = order;
     this.transitions = new Map();
   }
 
-  predict(history: number[]): number {
+  predict(history: number[], optionCount: number): number {
     if (history.length < this.order) {
-      return Math.round(history.length % 2);
+      return history.length % optionCount;
     }
 
-    const context = history.slice(-this.order).join('');
+    const context = history.slice(-this.order).join(',');
     const counts = this.transitions.get(context);
 
     if (!counts) {
-      return Math.round(history.length % 2);
+      return history.length % optionCount;
     }
 
-    return counts.count1 > counts.count0 ? 1 : 0;
+    // Find the option with the highest count
+    let maxCount = -1;
+    let prediction = 0;
+    for (let i = 0; i < optionCount; i++) {
+      const count = counts[i] || 0;
+      if (count > maxCount) {
+        maxCount = count;
+        prediction = i;
+      }
+    }
+
+    return prediction;
   }
 
   update(history: number[], actual: number): void {
     if (history.length < this.order) return;
 
-    const context = history.slice(-this.order).join('');
-    const counts = this.transitions.get(context) || { count0: 0, count1: 0 };
+    const context = history.slice(-this.order).join(',');
+    const counts = this.transitions.get(context) || [];
 
-    if (actual === 0) {
-      counts.count0++;
-    } else {
-      counts.count1++;
-    }
+    counts[actual] = (counts[actual] || 0) + 1;
 
     this.transitions.set(context, counts);
   }

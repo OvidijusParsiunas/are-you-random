@@ -15,9 +15,11 @@ export function Game() {
     currentPredictor,
     currentPrediction,
     availablePredictors,
+    optionCount,
     makeChoice,
     changePredictor,
     resetGame,
+    changeOptionCount,
   } = useGame();
 
   const [showReveal, setShowReveal] = useState(false);
@@ -66,15 +68,33 @@ export function Game() {
 
       <div className="choices-container">
         <div className="choice-section">
-          <h2>Make your choice</h2>
-          <ChoiceButtons onChoice={makeChoice} disabled={showReveal} />
+          <div className="choice-header">
+            <h2>Make your choice</h2>
+            <button
+              className="option-count-btn"
+              onClick={() => changeOptionCount(optionCount - 1)}
+              disabled={optionCount <= 2}
+            >
+              −
+            </button>
+            <button
+              className="option-count-btn"
+              onClick={() => changeOptionCount(optionCount + 1)}
+              disabled={optionCount >= 6}
+            >
+              +
+            </button>
+          </div>
+          <ChoiceButtons onChoice={makeChoice} disabled={showReveal} optionCount={optionCount} />
           {lastRound && !lastRound.correct && rounds.length > 1 && (
             <div key={rounds.length} className="plus-one human">+1</div>
           )}
         </div>
 
         <div className="choice-section">
-          <h2>Machine prediction</h2>
+          <div className="choice-header">
+            <h2>Machine prediction</h2>
+          </div>
           <div className="prediction-wrapper">
             <MachinePrediction
               key={rounds.length}

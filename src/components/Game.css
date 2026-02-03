@@ -30,7 +30,7 @@
 .choices-container {
   display: flex;
   justify-content: center;
-  gap: 4rem;
+  gap: 2rem;
   margin-bottom: 2rem;
   flex-wrap: wrap;
 }
@@ -70,9 +70,59 @@
   }
 }
 
+.choice-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
 .choice-section h2 {
   margin-bottom: 1rem;
   font-size: 1.2rem;
+}
+
+.option-count-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1.5px solid #555;
+  background: transparent;
+  color: #888;
+  font-size: 0.95rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  padding: 0;
+  padding-bottom: 1px;
+}
+
+.option-count-btn:hover:not(:disabled) {
+  border-color: #888;
+  color: #fff;
+  background: #444;
+}
+
+.option-count-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+@media (prefers-color-scheme: light) {
+  .option-count-btn {
+    border-color: #ccc;
+    color: #666;
+  }
+
+  .option-count-btn:hover:not(:disabled) {
+    border-color: #999;
+    color: #333;
+    background: #e8e8e8;
+  }
 }
 
 .prediction-wrapper {

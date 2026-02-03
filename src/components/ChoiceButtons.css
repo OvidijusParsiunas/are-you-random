@@ -50,3 +50,43 @@
   border-color: #fcd34d;
   box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
 }
+
+.choice-2 {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+}
+
+.choice-2:hover {
+  border-color: #6ee7b7;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+}
+
+.choice-3 {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+}
+
+.choice-3:hover {
+  border-color: #fca5a5;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+}
+
+.choice-4 {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  color: white;
+}
+
+.choice-4:hover {
+  border-color: #c4b5fd;
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+}
+
+.choice-5 {
+  background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+  color: white;
+}
+
+.choice-5:hover {
+  border-color: #f9a8d4;
+  box-shadow: 0 0 20px rgba(236, 72, 153, 0.5);
+}

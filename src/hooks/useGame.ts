@@ -14,6 +14,7 @@ export interface GameState {
   machineScore: number;
   currentPredictor: Predictor;
   availablePredictors: Predictor[];
+  optionCount: number;
 }
 
 export function useGame() {
@@ -22,9 +23,10 @@ export function useGame() {
   const [humanScore, setHumanScore] = useState(0);
   const [machineScore, setMachineScore] = useState(0);
   const [currentPredictor, setCurrentPredictor] = useState<Predictor>(predictors[0]);
+  const [optionCount, setOptionCount] = useState(2);
 
   const makeChoice = useCallback((choice: number) => {
-    const prediction = currentPredictor.predict(history);
+    const prediction = currentPredictor.predict(history, optionCount);
     const correct = prediction === choice;
 
     const round: Round = {
@@ -43,7 +45,7 @@ export function useGame() {
     } else {
       setHumanScore(prev => prev + 1);
     }
-  }, [history, currentPredictor]);
+  }, [history, currentPredictor, optionCount]);
 
   const changePredictor = useCallback((predictorName: string) => {
     const newPredictor = createPredictor(predictorName);
@@ -62,7 +64,18 @@ export function useGame() {
     setMachineScore(0);
   }, [currentPredictor]);
 
-  const currentPrediction = currentPredictor.predict(history);
+  const changeOptionCount = useCallback((newCount: number) => {
+    if (newCount < 2 || newCount > 6) return;
+    setOptionCount(newCount);
+    // Reset game when option count changes since learned patterns are invalid
+    currentPredictor.reset();
+    setHistory([]);
+    setRounds([]);
+    setHumanScore(0);
+    setMachineScore(0);
+  }, [currentPredictor]);
+
+  const currentPrediction = currentPredictor.predict(history, optionCount);
 
   return {
     history,
@@ -72,8 +85,10 @@ export function useGame() {
     currentPredictor,
     currentPrediction,
     availablePredictors: predictors,
+    optionCount,
     makeChoice,
     changePredictor,
     resetGame,
+    changeOptionCount,
   };
 }
