@@ -16,6 +16,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  user-select: none;
 }
 
 .choice-button:hover {
@@ -24,6 +25,10 @@
 
 .choice-button:active {
   transform: scale(0.95);
+}
+
+.choice-button:focus {
+  outline: none;
 }
 
 .choice-0 {

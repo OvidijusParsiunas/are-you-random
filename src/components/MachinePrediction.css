@@ -38,6 +38,7 @@
   color: white;
   transition: transform 0.3s ease;
   z-index: 1;
+  user-select: none;
 }
 
 .prediction-container:hover .prediction-shutter {
@@ -54,6 +55,7 @@
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
+  user-select: none;
 }
 
 .prediction-hidden {
