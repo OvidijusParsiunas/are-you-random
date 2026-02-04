@@ -8,7 +8,7 @@ export class NeuralPredictor implements Predictor {
   private model: tf.Sequential | null = null;
   private historyWindow: number;
   private trainingData: { input: number[]; output: number }[] = [];
-  private batchSize: number;
+  private minSamples: number;
   private _isProcessing: boolean = false;
   private lastOptionCount: number = 2;
 
@@ -16,9 +16,17 @@ export class NeuralPredictor implements Predictor {
     return this._isProcessing;
   }
 
-  constructor(historyWindow: number = 8, batchSize: number = 4) {
+  constructor(historyWindow: number = 8, minSamples: number = 4) {
     this.historyWindow = historyWindow;
-    this.batchSize = batchSize;
+    this.minSamples = minSamples;
+  }
+
+  // Adaptive decay: more choices = more recency bias, fewer choices = more history
+  private getRecencyDecay(optionCount: number): number {
+    // 2 choices → 0.875 (keeps more history)
+    // 4 choices → 0.8375
+    // 6 choices → 0.825 (most recency-focused)
+    return 0.8 + 0.15 / optionCount;
   }
 
   private buildModel(optionCount: number): tf.Sequential {
@@ -143,7 +151,7 @@ export class NeuralPredictor implements Predictor {
     }
 
     // Train when we have enough data
-    if (this.trainingData.length >= this.batchSize) {
+    if (this.trainingData.length >= this.minSamples) {
       await this.trainBatch(optionCount);
     }
   }
@@ -152,16 +160,45 @@ export class NeuralPredictor implements Predictor {
     if (!this.model) return;
 
     this._isProcessing = true;
-
+;
     try {
-      // Take the most recent samples for training
-      const samples = this.trainingData.slice(-this.batchSize);
+      const allSamples = this.trainingData;
+      const numSamples = allSamples.length;
+      const batchSize = Math.min(8, numSamples);
 
+      // Compute cumulative weights for efficient weighted sampling
+      const recencyDecay = this.getRecencyDecay(optionCount);
+      const cumulativeWeights: number[] = [];
+      let totalWeight = 0;
+      for (let i = 0; i < numSamples; i++) {
+        const age = numSamples - i - 1;
+        totalWeight += Math.pow(recencyDecay, age);
+        cumulativeWeights.push(totalWeight);
+      }
+
+      // Binary search sampling (O(batchSize * log(numSamples)))
+      const sampledIndices: number[] = [];
+      for (let i = 0; i < batchSize; i++) {
+        const r = Math.random() * totalWeight;
+        // Binary search for the index
+        let lo = 0, hi = numSamples - 1;
+        while (lo < hi) {
+          const mid = (lo + hi) >> 1;
+          if (cumulativeWeights[mid] < r) {
+            lo = mid + 1;
+          } else {
+            hi = mid;
+          }
+        }
+        sampledIndices.push(lo);
+      }
+
+      const samples = sampledIndices.map((i) => allSamples[i]);
       const xs = tf.tensor2d(samples.map((s) => s.input));
       const ys = tf.tensor2d(samples.map((s) => this.oneHotEncode(s.output, optionCount)));
 
       await this.model.fit(xs, ys, {
-        epochs: 3,
+        epochs: 2,
         verbose: 0,
       });
 
