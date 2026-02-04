@@ -17,7 +17,19 @@ export interface GameState {
   optionCount: number;
 }
 
-const initialPredictor = predictors[0];
+const PREDICTOR_STORAGE_KEY = 'selectedPredictor';
+
+function getInitialPredictor(): Predictor {
+  const savedName = localStorage.getItem(PREDICTOR_STORAGE_KEY);
+  if (savedName) {
+    const found = predictors.find(p => p.name === savedName);
+    if (found) {
+      return createPredictor(savedName);
+    }
+  }
+  return predictors[0];
+}
+
 const initialOptionCount = 2;
 
 export function useGame() {
@@ -25,10 +37,10 @@ export function useGame() {
   const [rounds, setRounds] = useState<Round[]>([]);
   const [humanScore, setHumanScore] = useState(0);
   const [machineScore, setMachineScore] = useState(0);
-  const [currentPredictor, setCurrentPredictor] = useState<Predictor>(initialPredictor);
+  const [currentPredictor, setCurrentPredictor] = useState<Predictor>(getInitialPredictor);
   const [optionCount, setOptionCount] = useState(initialOptionCount);
   const [currentPrediction, setCurrentPrediction] = useState(
-    () => initialPredictor.predict([], initialOptionCount)
+    () => getInitialPredictor().predict([], initialOptionCount)
   );
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -68,6 +80,7 @@ export function useGame() {
   const changePredictor = useCallback((predictorName: string) => {
     const newPredictor = createPredictor(predictorName);
     setCurrentPredictor(newPredictor);
+    localStorage.setItem(PREDICTOR_STORAGE_KEY, predictorName);
     setHistory([]);
     setRounds([]);
     setHumanScore(0);
