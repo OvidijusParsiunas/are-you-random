@@ -3,6 +3,7 @@ import { Predictor } from './types';
 export class MarkovPredictor implements Predictor {
   name = 'Markov Chain';
   description = 'Predicts based on patterns in your recent choices';
+  isProcessing = false;
 
   private order: number;
   private transitions: Map<string, number[]>;
@@ -38,7 +39,7 @@ export class MarkovPredictor implements Predictor {
     return prediction;
   }
 
-  update(history: number[], actual: number): void {
+  async update(history: number[], actual: number): Promise<void> {
     if (history.length < this.order) return;
 
     const context = history.slice(-this.order).join(',');

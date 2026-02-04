@@ -3,6 +3,7 @@ import { Predictor } from './types';
 export class DecayPredictor implements Predictor {
   name = 'Decay-Weighted';
   description = 'Weighs your recent choices more heavily';
+  isProcessing = false;
 
   private decayFactor: number;
   private weight0: number = 0;
@@ -12,14 +13,14 @@ export class DecayPredictor implements Predictor {
     this.decayFactor = decayFactor;
   }
 
-  predict(_history: number[]): number {
+  predict(_history: number[], _optionCount: number): number {
     if (this.weight0 === this.weight1) {
       return 0;
     }
     return this.weight1 > this.weight0 ? 1 : 0;
   }
 
-  update(_history: number[], actual: number): void {
+  async update(_history: number[], actual: number): Promise<void> {
     this.weight0 *= this.decayFactor;
     this.weight1 *= this.decayFactor;
 

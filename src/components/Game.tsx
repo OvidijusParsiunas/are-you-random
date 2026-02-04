@@ -16,6 +16,7 @@ export function Game() {
     currentPrediction,
     availablePredictors,
     optionCount,
+    isProcessing,
     makeChoice,
     changePredictor,
     resetGame,
@@ -85,7 +86,7 @@ export function Game() {
               +
             </button>
           </div>
-          <ChoiceButtons onChoice={makeChoice} disabled={showReveal} optionCount={optionCount} />
+          <ChoiceButtons onChoice={makeChoice} disabled={showReveal || isProcessing} optionCount={optionCount} />
           {lastRound && !lastRound.correct && rounds.length > 1 && (
             <div key={rounds.length} className="plus-one human">+1</div>
           )}
@@ -101,6 +102,7 @@ export function Game() {
               prediction={currentPrediction}
               lastPrediction={lastRound?.prediction}
               keepRevealed={showReveal}
+              isProcessing={isProcessing}
             />
           </div>
           {lastRound && lastRound.correct && rounds.length > 1 && (

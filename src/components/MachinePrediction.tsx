@@ -5,9 +5,10 @@ interface MachinePredictionProps {
   prediction: number;
   lastPrediction?: number | null;
   keepRevealed?: boolean;
+  isProcessing?: boolean;
 }
 
-export function MachinePrediction({ prediction, lastPrediction, keepRevealed }: MachinePredictionProps) {
+export function MachinePrediction({ prediction, lastPrediction, keepRevealed, isProcessing }: MachinePredictionProps) {
   const [showLastResult, setShowLastResult] = useState(
     lastPrediction !== null && lastPrediction !== undefined
   );
@@ -35,6 +36,12 @@ export function MachinePrediction({ prediction, lastPrediction, keepRevealed }: 
       {isShowingResult ? (
         <div className={`prediction-display prediction-${lastPrediction}`}>
           {lastPrediction}
+        </div>
+      ) : isProcessing ? (
+        <div className="prediction-container">
+          <div className="prediction-shutter processing">
+            <div className="spinner" />
+          </div>
         </div>
       ) : (
         <div className="prediction-container">

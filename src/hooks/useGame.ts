@@ -1,5 +1,5 @@
-import { useState, useCallback, useRef } from 'react';
 import { Predictor, predictors, createPredictor } from '../predictors';
+import { useState, useCallback, useRef } from 'react';
 
 export interface Round {
   userChoice: number;
@@ -30,12 +30,13 @@ export function useGame() {
   const [currentPrediction, setCurrentPrediction] = useState(
     () => initialPredictor.predict([], initialOptionCount)
   );
+  const [isProcessing, setIsProcessing] = useState(false);
 
   // Ref to access current prediction in callbacks without dependencies
   const predictionRef = useRef(currentPrediction);
   predictionRef.current = currentPrediction;
 
-  const makeChoice = useCallback((choice: number) => {
+  const makeChoice = useCallback(async (choice: number) => {
     const prediction = predictionRef.current;
     const correct = prediction === choice;
 
@@ -45,18 +46,23 @@ export function useGame() {
       correct,
     };
 
-    currentPredictor.update(history, choice);
-
     const newHistory = [...history, choice];
     setHistory(newHistory);
     setRounds(prev => [...prev, round]);
-    setCurrentPrediction(currentPredictor.predict(newHistory, optionCount));
 
     if (correct) {
       setMachineScore(prev => prev + 1);
     } else {
       setHumanScore(prev => prev + 1);
     }
+
+    // Update predictor (may involve async training)
+    setIsProcessing(true);
+    await currentPredictor.update(history, choice);
+    setIsProcessing(false);
+
+    // Compute next prediction after training completes
+    setCurrentPrediction(currentPredictor.predict(newHistory, optionCount));
   }, [history, currentPredictor, optionCount]);
 
   const changePredictor = useCallback((predictorName: string) => {
@@ -99,6 +105,7 @@ export function useGame() {
     currentPrediction,
     availablePredictors: predictors,
     optionCount,
+    isProcessing,
     makeChoice,
     changePredictor,
     resetGame,
