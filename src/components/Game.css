@@ -46,6 +46,7 @@
   font-size: 1.5rem;
   font-weight: bold;
   pointer-events: none;
+  user-select: none;
   animation: floatUp 1s ease-out forwards;
 }
 
@@ -80,6 +81,7 @@
 .choice-section h2 {
   margin-bottom: 1rem;
   font-size: 1.2rem;
+  user-select: none;
 }
 
 .option-count-btn {
@@ -98,6 +100,7 @@
   transition: all 0.2s ease;
   padding: 0;
   padding-bottom: 1px;
+  user-select: none;
 }
 
 .option-count-btn:nth-child(2) {
@@ -183,6 +186,7 @@
   text-align: center;
   padding-top: 3.5rem;
   animation: revealPulse 2.5s ease-out forwards;
+  user-select: none;
 }
 
 .reveal-message.human-win {

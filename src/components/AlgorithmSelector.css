@@ -9,10 +9,6 @@
   cursor: pointer;
 }
 
-.algorithm-selector:focus {
-  outline: 2px solid #646cff;
-  border-color: #646cff;
-}
 
 @media (prefers-color-scheme: light) {
   .algorithm-selector {
