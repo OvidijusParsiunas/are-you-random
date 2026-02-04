@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { Predictor, predictors, createPredictor } from '../predictors';
 
 export interface Round {
@@ -17,16 +17,26 @@ export interface GameState {
   optionCount: number;
 }
 
+const initialPredictor = predictors[0];
+const initialOptionCount = 2;
+
 export function useGame() {
   const [history, setHistory] = useState<number[]>([]);
   const [rounds, setRounds] = useState<Round[]>([]);
   const [humanScore, setHumanScore] = useState(0);
   const [machineScore, setMachineScore] = useState(0);
-  const [currentPredictor, setCurrentPredictor] = useState<Predictor>(predictors[0]);
-  const [optionCount, setOptionCount] = useState(2);
+  const [currentPredictor, setCurrentPredictor] = useState<Predictor>(initialPredictor);
+  const [optionCount, setOptionCount] = useState(initialOptionCount);
+  const [currentPrediction, setCurrentPrediction] = useState(
+    () => initialPredictor.predict([], initialOptionCount)
+  );
+
+  // Ref to access current prediction in callbacks without dependencies
+  const predictionRef = useRef(currentPrediction);
+  predictionRef.current = currentPrediction;
 
   const makeChoice = useCallback((choice: number) => {
-    const prediction = currentPredictor.predict(history, optionCount);
+    const prediction = predictionRef.current;
     const correct = prediction === choice;
 
     const round: Round = {
@@ -37,8 +47,10 @@ export function useGame() {
 
     currentPredictor.update(history, choice);
 
-    setHistory(prev => [...prev, choice]);
+    const newHistory = [...history, choice];
+    setHistory(newHistory);
     setRounds(prev => [...prev, round]);
+    setCurrentPrediction(currentPredictor.predict(newHistory, optionCount));
 
     if (correct) {
       setMachineScore(prev => prev + 1);
@@ -54,7 +66,8 @@ export function useGame() {
     setRounds([]);
     setHumanScore(0);
     setMachineScore(0);
-  }, []);
+    setCurrentPrediction(newPredictor.predict([], optionCount));
+  }, [optionCount]);
 
   const resetGame = useCallback(() => {
     currentPredictor.reset();
@@ -62,7 +75,8 @@ export function useGame() {
     setRounds([]);
     setHumanScore(0);
     setMachineScore(0);
-  }, [currentPredictor]);
+    setCurrentPrediction(currentPredictor.predict([], optionCount));
+  }, [currentPredictor, optionCount]);
 
   const changeOptionCount = useCallback((newCount: number) => {
     if (newCount < 2 || newCount > 6) return;
@@ -73,9 +87,8 @@ export function useGame() {
     setRounds([]);
     setHumanScore(0);
     setMachineScore(0);
+    setCurrentPrediction(currentPredictor.predict([], newCount));
   }, [currentPredictor]);
-
-  const currentPrediction = currentPredictor.predict(history, optionCount);
 
   return {
     history,
