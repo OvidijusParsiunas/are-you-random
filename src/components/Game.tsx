@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
 import { MachinePrediction } from './MachinePrediction';
 import { AlgorithmSelector } from './AlgorithmSelector';
 import { ChoiceButtons } from './ChoiceButtons';
 import { ScoreDisplay } from './ScoreDisplay';
+import { useState, useEffect } from 'react';
+import { ThemeToggle } from './ThemeToggle';
 import { useGame } from '../hooks/useGame';
 import { History } from './History';
 import './Game.css';
@@ -58,6 +59,9 @@ export function Game() {
         <button className="reset-button" onClick={resetGame}>
           Reset
         </button>
+      </div>
+      <div className="toolbar-right">
+        <ThemeToggle />
       </div>
 
       <header className="game-header">

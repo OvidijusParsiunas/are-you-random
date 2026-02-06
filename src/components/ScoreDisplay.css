@@ -49,12 +49,10 @@
   opacity: 0.5;
 }
 
-@media (prefers-color-scheme: light) {
-  .score-side.human .score-value {
-    color: #16a34a;
-  }
+[data-theme="light"] .score-side.human .score-value {
+  color: #16a34a;
+}
 
-  .score-side.machine .score-value {
-    color: #dc2626;
-  }
+[data-theme="light"] .score-side.machine .score-value {
+  color: #dc2626;
 }

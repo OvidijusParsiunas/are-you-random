@@ -1,0 +1,36 @@
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background-color: #444;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #fff;
+  transition: background-color 0.2s ease;
+}
+
+.theme-toggle:hover {
+  background-color: #555;
+}
+
+.theme-toggle:focus {
+  outline: none;
+}
+
+.theme-icon {
+  width: 20px;
+  height: 20px;
+}
+
+[data-theme="light"] .theme-toggle {
+  background-color: #f2f2f2;
+  color: #3e3e3e;
+}
+
+[data-theme="light"] .theme-toggle:hover {
+  background-color: #ccc;
+}

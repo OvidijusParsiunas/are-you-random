@@ -12,6 +12,13 @@
   z-index: 100;
 }
 
+.toolbar-right {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 100;
+}
+
 .game-header {
   margin-bottom: 2rem;
 }
@@ -99,7 +106,7 @@
   justify-content: center;
   transition: all 0.2s ease;
   padding: 0;
-  padding-bottom: 1px;
+  padding-bottom: 2px;
   user-select: none;
 }
 
@@ -126,17 +133,15 @@
   cursor: not-allowed;
 }
 
-@media (prefers-color-scheme: light) {
-  .option-count-btn {
-    border-color: #d4d4d4;
-    color: #9d9d9d;
-  }
+[data-theme="light"] .option-count-btn {
+  border-color: #d4d4d4;
+  color: #9d9d9d;
+}
 
-  .option-count-btn:hover:not(:disabled) {
-    border-color: #999;
-    color: #333;
-    background: #e8e8e8;
-  }
+[data-theme="light"] .option-count-btn:hover:not(:disabled) {
+  border-color: #999;
+  color: #333;
+  background: #e8e8e8;
 }
 
 .prediction-wrapper {
@@ -161,15 +166,13 @@
   background-color: #555;
 }
 
-@media (prefers-color-scheme: light) {
-  .reset-button {
-    background-color: #e8e8e8;
-    color: #3e3e3e;
-  }
+[data-theme="light"] .reset-button {
+  background-color: #ececec;
+  color: #3e3e3e;
+}
 
-  .reset-button:hover {
-    background-color: #ccc;
-  }
+[data-theme="light"] .reset-button:hover {
+  background-color: #ccc;
 }
 
 .score-area {
