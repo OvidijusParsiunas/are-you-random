@@ -1,8 +1,8 @@
+import { Predictor, PREDICTOR_NAMES } from './types';
 import * as tf from '@tensorflow/tfjs';
-import { Predictor } from './types';
 
 export class NeuralPredictor implements Predictor {
-  name = 'Neural Network';
+  name = PREDICTOR_NAMES.NEURAL_NETWORK;
   description = 'A machine learning model that learns your patterns';
 
   private model: tf.Sequential | null = null;
@@ -210,9 +210,22 @@ export class NeuralPredictor implements Predictor {
   }
 
   reset(): void {
-    this.model?.dispose();
-    this.model = null;
+    // Keep the model (preserves warmup) but clear learned patterns
     this.trainingData = [];
     this._isProcessing = false;
+  }
+
+  async warmup(): Promise<void> {
+    // Initialize TensorFlow.js backend (WebGL or CPU)
+    await tf.ready();
+    // Pre-build the model for default option count
+    if (!this.model) {
+      this.model = this.buildModel(this.lastOptionCount);
+    }
+    // Run a dummy prediction to fully initialize GPU kernels
+    tf.tidy(() => {
+      const dummyInput = tf.zeros([1, this.historyWindow * this.lastOptionCount]);
+      this.model!.predict(dummyInput);
+    });
   }
 }

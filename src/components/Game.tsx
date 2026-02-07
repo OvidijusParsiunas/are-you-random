@@ -1,5 +1,6 @@
 import { MachinePrediction } from './MachinePrediction';
 import { AlgorithmSelector } from './AlgorithmSelector';
+import { PREDICTOR_NAMES } from '../predictors';
 import { ChoiceButtons } from './ChoiceButtons';
 import { ScoreDisplay } from './ScoreDisplay';
 import { useState, useEffect } from 'react';
@@ -28,6 +29,7 @@ export function Game() {
   const [showScoreAndHistory, setShowScoreAndHistory] = useState(false);
   const [hasPlayedBefore, setHasPlayedBefore] = useState(false);
   const [initialFadeIn, setInitialFadeIn] = useState(true);
+  const [highlightSelector, setHighlightSelector] = useState(false);
 
   const hasPlayed = rounds.length > 0;
   const lastRound = rounds[rounds.length - 1];
@@ -48,6 +50,15 @@ export function Game() {
     }
   }, [rounds.length, hasPlayedBefore]);
 
+  const handleIncreaseOptions = () => {
+    changeOptionCount(optionCount + 1);
+    // Highlight selector when using Markov Chain to suggest trying Neural Network
+    if (currentPredictor.name === PREDICTOR_NAMES.MARKOV_CHAIN && optionCount < 6) {
+      setHighlightSelector(true);
+      setTimeout(() => setHighlightSelector(false), 700);
+    }
+  };
+
   return (
     <div className="game">
       <div className="toolbar">
@@ -55,6 +66,7 @@ export function Game() {
           predictors={availablePredictors}
           currentPredictor={currentPredictor}
           onSelect={changePredictor}
+          highlight={highlightSelector}
         />
         <button className="reset-button" onClick={resetGame}>
           Reset
@@ -95,7 +107,7 @@ export function Game() {
             </button>
             <button
               className="option-count-btn"
-              onClick={() => changeOptionCount(optionCount + 1)}
+              onClick={handleIncreaseOptions}
               disabled={optionCount >= 6}
             >
               +

@@ -1,7 +1,7 @@
-import { Predictor } from './types';
+import { Predictor, PREDICTOR_NAMES } from './types';
 
 export class MarkovPredictor implements Predictor {
-  name = 'Markov Chain';
+  name = PREDICTOR_NAMES.MARKOV_CHAIN;
   description = 'Predicts based on patterns in your recent choices';
   isProcessing = false;
 
