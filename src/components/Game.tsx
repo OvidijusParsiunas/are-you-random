@@ -30,6 +30,7 @@ export function Game() {
   const [hasPlayedBefore, setHasPlayedBefore] = useState(false);
   const [initialFadeIn, setInitialFadeIn] = useState(true);
   const [highlightSelector, setHighlightSelector] = useState(false);
+  const [resetPressed, setResetPressed] = useState(false);
 
   const hasPlayed = rounds.length > 0;
   const lastRound = rounds[rounds.length - 1];
@@ -68,7 +69,14 @@ export function Game() {
           onSelect={changePredictor}
           highlight={highlightSelector}
         />
-        <button className="reset-button" onClick={resetGame}>
+        <button
+          className="reset-button"
+          onClick={resetGame}
+          onMouseDown={() => setResetPressed(true)}
+          onMouseUp={() => setResetPressed(false)}
+          onMouseLeave={() => setResetPressed(false)}
+          style={resetPressed ? { backgroundColor: 'var(--reset-active-bg)' } : undefined}
+        >
           Reset
         </button>
       </div>

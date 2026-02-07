@@ -182,22 +182,31 @@
 
 
 .reset-button {
+  --reset-active-bg: #464646;
   padding: 0.5rem 0.8rem;
-  background-color: #444;
+  background-color: #181818;
   color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.9rem;
+  border: 1px solid #444;
 }
 
 .reset-button:hover {
-  background-color: #555;
+  background-color: #313131;
+  border: 1px solid #444;
+}
+
+.reset-button:focus {
+  outline: none;
 }
 
 [data-theme="light"] .reset-button {
+  --reset-active-bg: #bbb;
   background-color: #ececec;
   color: #3e3e3e;
+  border: 0px solid black;
 }
 
 [data-theme="light"] .reset-button:hover {
