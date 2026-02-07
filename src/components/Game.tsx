@@ -92,6 +92,9 @@ export function Game() {
         <p className="game-subtitle">
           The machine will try to predict your next choice. If it's right, it scores. If not, you do.
         </p>
+        <p className="game-subtitle" style={{marginTop: '0.2rem'}}>
+          Can you prove you're truly random? Spoiler: humans rarely are.
+        </p>
       </header>
 
       <div className="choices-container">
