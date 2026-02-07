@@ -17,6 +17,35 @@
   top: 1rem;
   right: 1rem;
   z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.github-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  color: #fff;
+  transition: background-color 0.2s ease;
+}
+
+
+.github-link svg {
+  width: 20px;
+  height: 20px;
+}
+
+[data-theme="light"] .github-link {
+  color: #000000;
+}
+
+[data-theme="light"] .github-link:hover,
+[data-theme="dark"] .github-link:hover {
+  color: #7b7b7b;
 }
 
 .game-header {

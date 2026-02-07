@@ -5,8 +5,8 @@ import { Predictor } from './types';
 export type { Predictor };
 
 export const predictors: Predictor[] = [
-  new NeuralPredictor(),
   new MarkovPredictor(),
+  new NeuralPredictor(),
 ];
 
 export function createPredictor(name: string): Predictor {
