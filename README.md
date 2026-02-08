@@ -1,50 +1,41 @@
-# React + TypeScript + Vite
+<img width="1115" height="241" alt="image" src="https://github.com/user-attachments/assets/112dd711-1846-4830-87e1-01ea39ce5bc0" />
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+https://github.com/user-attachments/assets/f81e13d9-43a5-4f73-b7fb-9368239fdcb8
 
-Currently, two official plugins are available:
+A browser game that tests how predictable your "random" choices really are.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Try to beat the machine by being unpredictable. The computer uses pattern recognition to predict your next move.
 
-## Expanding the ESLint configuration
+## 🎯 Goal
+The goal of this project is to demonstrate that humans are not as random as they think. We tend to fall into patterns without realizing it.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 🎮 Play
 
-- Configure the top-level `parserOptions` property like this:
+https://ovidijusparsiunas.github.io/are-you-random
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## 🎯 How It Works
+
+1. Pick a number (2-6 choices available)
+2. The machine tries to predict your choice
+3. You score if it guesses wrong; the machine scores if it's right
+
+## :robot: Algorithms
+
+- **Markov Chain** - Predicts based on patterns in your recent choices
+- **Neural Network** - A TensorFlow.js model that learns your behavior
+
+## 🛠️ Development
+
+```bash
+npm install
+npm run dev
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## :bulb: Inspiration
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+This project was inspired by [mav vs machine](https://www.loper-os.org/bad-at-entropy/manmach.html)
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## :heart: Contributions
+
+Open source is built by the community for the community. All contributions to this project are welcome!<br>
+Additionally, if you have any suggestions for enhancements, ideas on how to take the project further or have discovered a bug, do not hesitate to create a new issue ticket and we will look into it as soon as possible!
